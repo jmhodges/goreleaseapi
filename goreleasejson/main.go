@@ -109,10 +109,26 @@ func main() {
 	if err != nil {
 		log.Fatalf("goreleasejson: unable to create latest_version.txt file: %s", err)
 	}
+	latestReleaseJSON, err := json.Marshal(
+		release{
+			Artifacts: artifacts[latestVersion],
+			//			Version:   latestVersion,
+		})
+	if err != nil {
+		log.Fatalf("goreleasejson: unable to marshal the JSON for latest_release.json: %s", err)
+	}
+	err = ioutil.WriteFile(filepath.Join(*genDir, "latest_release.json"), latestReleaseJSON, 0644)
+	if err != nil {
+		log.Fatalf("goreleasejson: unable to create latest_release.json file: %s", err)
+	}
+
 	for vers, arcs := range artifacts {
 		versDir := filepath.Join(*genDir, "versions", vers)
 		fp := filepath.Join(versDir, "artifacts.json")
-		arcJSON, err := json.Marshal(artifactsWrapper{Artifacts: arcs})
+		arcJSON, err := json.Marshal(release{
+			Artifacts: arcs,
+			// Version:   vers,
+		})
 		if err != nil {
 			log.Fatalf("goreleasejson: unable to JSON marshal artifacts for %#v: %s", fp, err)
 		}
@@ -184,8 +200,9 @@ type artifact struct {
 	SHA256  string `json:"sha256"`
 }
 
-type artifactsWrapper struct {
+type release struct {
 	Artifacts []artifact `json:"artifacts"`
+	// Version   string     `json:"version"`
 }
 
 type allVersWrapper struct {
