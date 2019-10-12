@@ -53,15 +53,15 @@ func main() {
 	artifacts := make(map[string][]artifact)
 	// Inefficient but makes it easy to group by versions
 	for _, vers := range versions {
-		cssEscaped := strings.Replace(vers.rawID, ".", "\\.", -1)
-		selector := fmt.Sprintf("div#%s table.codetable tr", cssEscaped)
+		cssEscaped := strings.Replace(vers.versNum, ".", "\\.", -1)
+		selector := fmt.Sprintf("div#go%s table.codetable tr", cssEscaped)
 		doc.Find(selector).Each(func(i int, tr *goquery.Selection) {
 			class, found := tr.Attr("class")
 			if found && class == "first" {
 				// skip their blank first one
 				return
 			}
-			arc := artifact{Version: vers.rawID}
+			arc := artifact{Version: vers.versNum}
 			tds := tr.ChildrenFiltered("td")
 			tds.Find("a.download").Each(func(i int, anchor *goquery.Selection) {
 				link, found := anchor.Attr("href")
@@ -80,7 +80,7 @@ func main() {
 			arc.Size = tds.Text()
 			tds = tds.Next()
 			arc.SHA256 = tds.Text()
-			artifacts[vers.rawID] = append(artifacts[vers.rawID], arc)
+			artifacts[vers.versNum] = append(artifacts[vers.versNum], arc)
 		})
 	}
 	var sortedVersInfo []versInfo
@@ -93,10 +93,10 @@ func main() {
 	sortedVers := make([]string, 0, len(sortedVersInfo))
 	sortedVersLinks := make([]versionLink, 0, len(sortedVersInfo))
 	for _, vers := range sortedVersInfo {
-		sortedVers = append(sortedVers, vers.rawID)
+		sortedVers = append(sortedVers, vers.versNum)
 		sortedVersLinks = append(sortedVersLinks, versionLink{
-			Version: vers.rawID,
-			Link:    fmt.Sprintf("/%s/versions/%s/release.json", *genDir, vers.rawID),
+			Version: vers.versNum,
+			Link:    fmt.Sprintf("/%s/versions/%s/release.json", *genDir, vers.versNum),
 		})
 	}
 	latestVersion := sortedVers[0]
@@ -176,18 +176,19 @@ func main() {
 func addGoVersion(versions map[string]versInfo, s *goquery.Selection) error {
 	id, exists := s.Attr("id")
 	if exists && strings.HasPrefix(id, "go") {
-		vers, err := semver.ParseTolerant(id[len("go"):])
+		versNum := id[len("go"):]
+		vers, err := semver.ParseTolerant(versNum)
 		if err != nil {
-			fmt.Errorf("unable to parse HTML tag's id as a Go version: %w", err)
+			fmt.Errorf("unable to parse HTML tag's id (%#v) as a Go version: %w", id, err)
 		}
-		versions[id] = versInfo{rawID: id, vers: vers}
+		versions[id] = versInfo{versNum: versNum, vers: vers}
 	}
 	return nil
 }
 
 type versInfo struct {
-	rawID string
-	vers  semver.Version
+	versNum string
+	vers    semver.Version
 }
 
 type artifact struct {
