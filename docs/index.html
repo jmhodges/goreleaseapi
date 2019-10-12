@@ -41,7 +41,7 @@
             <h3>API objects</h3>
           </div>
           <p>
-            <code>Release</code> objects contain:
+            <code>Release</code> objects contain:#
             <dl class="dl-horizontal">
               <dt>artifacts</dt>
               <dd>An array of <code>Artifact</code>s.</dd>
@@ -57,7 +57,7 @@
                 <dt>os</dt><dd>The operating system the artifact is meant to be used on (if a specific one exists).</dd>
                 <dt>arch</dt><dd>The CPU architecture the artifact is meant to be used on (if a specific one exists).</dd>
                 <dt>size</dt><dd>The number of bytes the artifact is in a human-readable form.</dd>
-                <dt>sha256</dt><dd>The SHA256 of the artifact to be used for verification of a correct download.</dd>
+                <dt>sha256</dt><dd>The SHA256 of the artifact to be used for verification of a correct download. Present on all versions after 1.5.2.</dd>
                 <dt>sha1</dt><dd>The SHA1 of the artifact to be used for verification of a correct download. Present only on versions 1.5.2 and older. No longer used in more recent versions.</dd>
             </dl>
           </p>
