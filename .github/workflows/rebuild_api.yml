@@ -1,8 +1,8 @@
 name: Rebuild API when new Go release occurs
 on:
   schedule:
-    # Do this every 3 hours
-    - cron: '* * */3 * *'
+    # Do this on the 15th minute of every third hour.
+    - cron: '15 */3 * * *'
   push:
     branches:
       - force_rebuild_api
