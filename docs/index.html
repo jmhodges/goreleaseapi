@@ -32,7 +32,7 @@
 
           <p><a href="/goreleaseapi/api/all_versions.txt">/api/all_versions.txt</a>: Returns all of the stable Go versions sorted in decreasing release version and separated by newlines.</p>
 
-          <p><a href="/goreleaseapi/api/all_versions.json">/api/all_versions.json</a>: Returns all of the stable Go versions in JSON format with a top-level versions key pointing to an array of JSON objects with version and link keys. The value of link is a relative HTTP path to aJSON Release objects.
+          <p><a href="/goreleaseapi/api/all_versions.json">/api/all_versions.json</a>: Returns all of the stable Go versions as an JSON object with a top-level <code>versions</code> key whose value is an array version strings in decreasing release version.</p>
 
           <p>/api/versions/$GO_VERSION/release.json: The JSON <code>Release</code> object for the given <code>$GO_VERSION</code>.
         </div>

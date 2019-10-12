@@ -109,13 +109,8 @@ func main() {
 		return sortedVersInfo[i].vers.GT(sortedVersInfo[j].vers)
 	})
 	sortedVers := make([]string, 0, len(sortedVersInfo))
-	sortedVersLinks := make([]versionLink, 0, len(sortedVersInfo))
 	for _, vers := range sortedVersInfo {
 		sortedVers = append(sortedVers, vers.versNum)
-		sortedVersLinks = append(sortedVersLinks, versionLink{
-			Version: vers.versNum,
-			Link:    fmt.Sprintf("/%s/versions/%s/release.json", *genDir, vers.versNum),
-		})
 	}
 	latestVersion := sortedVers[0]
 
@@ -165,7 +160,7 @@ func main() {
 	}
 
 	allVersJSONPath := filepath.Join(*genDir, "all_versions.json")
-	versJSONBytes, err := json.Marshal(allVersWrapper{Versions: sortedVersLinks})
+	versJSONBytes, err := json.Marshal(allVersWrapper{Versions: sortedVers})
 	if err != nil {
 		log.Fatalf("goreleasejson: unable to marshal JSON of the versions array: %s", err)
 	}
@@ -252,7 +247,7 @@ type release struct {
 }
 
 type allVersWrapper struct {
-	Versions []versionLink `json:"versions"`
+	Versions []string `json:"versions"`
 }
 
 type versionLink struct {
