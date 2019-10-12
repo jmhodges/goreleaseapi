@@ -2,12 +2,12 @@ name: Rebuild API when new Go release occurs
 on:
   schedule:
     # Do this on the 15th minute of every third hour.
-    - cron: '15 */3 * * *'
+    - cron: '47 */1 * * *'
   push:
     branches:
       - force_rebuild_api
 jobs:
-  make_pr:
+  make_rebuild_pr:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
