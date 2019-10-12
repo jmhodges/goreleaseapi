@@ -1,0 +1,26 @@
+name: Auto-merge the automatically generated API rebuilds
+on:
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
+
+jobs:
+  automerge_rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: automerge_autorebuilds
+        uses: pascalgn/automerge-action@v0.3.2
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          LABELS: autorebuild
+          MERGE_METHOD: squash
