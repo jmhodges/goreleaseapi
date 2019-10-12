@@ -6,13 +6,11 @@ on:
   push:
     branches:
       - force_rebuild_api
+      - master
 jobs:
   make_rebuild_pr:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-        with:
-          ref: master
       - name: Set up Go
         uses: actions/setup-go@v1
         with:
