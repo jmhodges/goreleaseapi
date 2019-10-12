@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: automerge_autorebuilds
-        uses: pascalgn/automerge-action@v0.3.2
+        uses: pascalgn/automerge-action@v0.4.0
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           LABELS: autorebuild
