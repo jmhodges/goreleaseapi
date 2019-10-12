@@ -8,9 +8,8 @@ on:
       - master
 
 jobs:
-
-  build:
-    name: Build Go
+  test:
+    name: Test Go
     runs-on: ubuntu-latest
     steps:
 
