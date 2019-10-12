@@ -23,5 +23,5 @@ jobs:
         uses: peter-evans/create-pull-request@v1.5.1
         env:
           PULL_REQUEST_TITLE: ${{ steps.vars.outputs.pr_title }}
-          COMMIT_MESSAGE: ${{ step.vars.outputs.pr_title }}
+          COMMIT_MESSAGE: ${{ steps.vars.outputs.pr_title }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
