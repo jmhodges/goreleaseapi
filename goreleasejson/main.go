@@ -179,7 +179,7 @@ func addGoVersion(versions map[string]versInfo, s *goquery.Selection) error {
 		versNum := id[len("go"):]
 		vers, err := semver.ParseTolerant(versNum)
 		if err != nil {
-			fmt.Errorf("unable to parse HTML tag's id (%#v) as a Go version: %w", id, err)
+			return fmt.Errorf("unable to parse HTML tag's id (%#v) as a Go version: %w", id, err)
 		}
 		versions[id] = versInfo{versNum: versNum, vers: vers}
 	}
