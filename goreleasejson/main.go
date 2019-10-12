@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"sort"
@@ -63,26 +64,43 @@ func main() {
 			}
 			arc := artifact{Version: vers.versNum}
 			tds := tr.ChildrenFiltered("td")
-			tds.Find("a.download").Each(func(i int, anchor *goquery.Selection) {
-				link, found := anchor.Attr("href")
-				if !found {
-					log.Fatalf("goreleasejson: unable to grab href attribute we think is a download link: %s", err)
+			tds.Each(func(i int, child *goquery.Selection) {
+
+				switch i {
+				case 0:
+					link, found := child.Find("a.download").Attr("href")
+					if !found {
+						html, _ := child.Html()
+						log.Fatalf("goreleasejson: unable to grab href attribute we think is a download link from %#v", html)
+					}
+					arc.Link = link
+				case 1:
+					arc.Kind = child.Text()
+				case 2:
+					arc.OS = child.Text()
+				case 3:
+					arc.Arch = child.Text()
+				case 4:
+					arc.Size = child.Text()
+				case 5:
+					text := child.Text()
+					switch len(text) {
+					case 64:
+						arc.SHA256 = text
+					case 40:
+						arc.SHA1 = text
+					}
 				}
-				arc.Link = link
 			})
-			tds = tds.Next()
-			arc.Kind = tds.Text()
-			tds = tds.Next()
-			arc.OS = tds.Text()
-			tds = tds.Next()
-			arc.Arch = tds.Text()
-			tds = tds.Next()
-			arc.Size = tds.Text()
-			tds = tds.Next()
-			arc.SHA256 = tds.Text()
 			artifacts[vers.versNum] = append(artifacts[vers.versNum], arc)
 		})
 	}
+
+	err = validateArtifacts(artifacts)
+	if err != nil {
+		log.Fatalf("goreleasejson: unable to validate our artifact objects as correctly parsed from the HTML: %s", err)
+	}
+
 	var sortedVersInfo []versInfo
 	for _, vers := range versions {
 		sortedVersInfo = append(sortedVersInfo, vers)
@@ -186,6 +204,33 @@ func addGoVersion(versions map[string]versInfo, s *goquery.Selection) error {
 	return nil
 }
 
+func validateArtifacts(artifacts map[string][]artifact) error {
+	for vers, arcs := range artifacts {
+		for _, arc := range arcs {
+			switch arc.Kind {
+			case "Source", "Installer", "Archive":
+				// do nothing
+			default:
+				return fmt.Errorf("release version %#v has an artifact that has an unknown Kind (%#v)", vers, arc.Kind)
+			}
+			if arc.SHA256 == "" && arc.SHA1 == "" {
+				return fmt.Errorf("release version %#v had an artifact with no sha256 or sha1 hash set", vers)
+			}
+			if len(arc.SHA256) != 64 && arc.SHA256 != "" {
+				return fmt.Errorf("release version %#v had an artifact with a sha256 that was %d bytes instead of 64, sha256 was %#v", vers, len(arc.SHA256), arc.SHA256)
+			}
+			if len(arc.SHA1) != 40 && arc.SHA1 != "" {
+				return fmt.Errorf("release version %#v had an artifact with a sha1 that was %d bytes instead of 40, sha1 was %#v", vers, len(arc.SHA1), arc.SHA1)
+			}
+			_, err := url.Parse(arc.Link)
+			if err != nil {
+				return fmt.Errorf("release version %#v had an artifact with an unparseable Link (%#v): %s", vers, arc.Link, err)
+			}
+		}
+	}
+	return nil
+}
+
 type versInfo struct {
 	versNum string
 	vers    semver.Version
@@ -199,6 +244,7 @@ type artifact struct {
 	Arch    string `json:"arch"`
 	Size    string `json:"size"`
 	SHA256  string `json:"sha256"`
+	SHA1    string `json:"sha1"`
 }
 
 type release struct {
