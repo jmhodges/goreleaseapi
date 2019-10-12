@@ -4,50 +4,68 @@
     <title>Go release JSON API</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
       <div class="page-header">
         <h2>Go release JSON API</h2>
       </div>
       <p>The Go release JSON API provides programmatic access to the release versions, and artifacts of the Go programming language.</p>
-      <div class="page-header">
-        <h3>The API's URLs</h3>
-      </div>
-      <a href="/goreleaseapi/api/latest_version.txt">/api/latest_version.txt</a>: The latest version of Go in text.</p>
-      <a href="/goreleaseapi/api/latest_release.json">/api/latest_release.json</a>: The <code>Release</code> object for the latest version of Go.</p>
-      <p><a href="/goreleaseapi/api/all_versions.txt">/api/all_versions.txt</a>: All of the Go versions sorted in decreasing release version and separated by newlines.</p>
-      <p><a href="/goreleaseapi/api/all_versions.json">/api/all_versions.json</a>: All of the Go versions in JSON format with a top-level <code>versions</code> key pointing to an array of JSON objects with <code>version</code> and <code>link</code> keys. The value of <code>link</code> is a relative HTTP path to aJSON <code>Release</code> objects.</p>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="page-header">
+            <h3>API calls</h3>
+          </div>
+          <p><a href="/goreleaseapi/api/latest_version.txt">/api/latest_version.txt</a>: The latest version of Go in text.</p>
 
-      <p>/api/versions/$GO_VERSION/release.json: The JSON <code>Release</code> object for the given <code>$GO_VERSION</code>. Specific <code>Release</code>s will be linked to from <a href="/goreleaseapi/api/all_versions.json">/api/all_versions.json</a> so
-        you don't have to get the version formatting correct.</p>
-      <div class="page-header">
-        <h3>The API's objects</h3>
-      </div>
-      <p><code>Release</code> objects have a <code>artifacts</code> key whose value is an array of <code>Artifact</code> objects and a <code>version</code> key
-      whose value is the Go version of the release.</p>
-      
-      <p>
-        <code>Artifact</code> objects have these properties:
-        <dl class="">
-          <dt>version</dt><dd>The short version string of the Go release the artifact is from.</dd>
-          <dt>link</dt><dd>The URL where the artifact can be downloaded.</dd>
-          <dt>kind</dt><dd>The kind can be either <code>Source</code> (it's the source code for the artifact), <code>Installer</code> (a binary installer tool for a given platform), or <code>Archive</code> (a compiled form of the Go release for that platform)</dd>
-          <dt>os</dt><dd>The operating system the artifact is meant to be used on. (if a specific one exists).</dd>
-          <dt>arch</dt><dd>The CPU architecture is meant to be used on (if a specific one exists).</dd>
-          <dt>size</dt><dd>The number of bytes the artifact is in a human-readable form.</dd>
-          <dt>sha256</dt><dd>The SHA256 of the artifact to be used for verification of a correct download.</dd>
-        </dl>
-      </p>
+          <p><a href="/goreleaseapi/api/latest_release.json">/api/latest_release.json</a>: The <code>Release</code> object for the latest version of Go.</p>
 
-      <footer>Maintained by Jeff Hodges (Twitter: <a href="https://twitter.com/jmhodges">@jmhodges</a>, GitHub: <a href="https://github.com/jmhodges">jmhodges</a>)</footer>
+          <p><a href="/goreleaseapi/api/all_versions.txt">/api/all_versions.txt</a>: All of the Go versions sorted in decreasing release version and separated by newlines.</p>
+
+          <p><a href="/goreleaseapi/api/all_versions.json">/api/all_versions.json</a>: All of the Go versions in JSON format with a top-level <code>versions</code> key pointing to an array of JSON objects with <code>version</code> and <code>link</code> keys. The value of <code>link</code> is a relative HTTP path to aJSON <code>Release</code> objects.</p>
+
+          <p>/api/versions/$GO_VERSION/release.json: The JSON <code>Release</code> object for the given <code>$GO_VERSION</code>. Specific <code>Release</code>s will be linked to from <a href="/goreleaseapi/api/all_versions.json">/api/all_versions.json</a> so
+            you don't have to get the version formatting correct.</p>
+        </div>
+        <div class="col-md-6">
+          <div class="page-header">
+            <h3>API objects</h3>
+          </div>
+          <p>
+            <code>Release</code> objects contain:
+            <dl class="dl-horizontal">
+              <dt>artifacts</dt>
+              <dd>An array of <code>Artifact</code>s.</dd>
+              <dt>version</dt>
+              <dd>The version (e.g. "1.1", "1.13.1") of the release.</dd>
+            </dl>
+          <p>
+            <code>Artifact</code> objects contain:
+            <dl class="dl-horizontal">
+              <dt>version</dt><dd>The short version string of the Go release the artifact is from.</dd>
+              <dt>link</dt><dd>The URL where the artifact can be downloaded.</dd>
+              <dt>kind</dt><dd>The kind can be either <code>Source</code> (it's the source code for the artifact), <code>Installer</code> (a binary installer tool for a given platform), or <code>Archive</code> (a compiled form of the Go release for that platform)</dd>
+              <dt>os</dt><dd>The operating system the artifact is meant to be used on. (if a specific one exists).</dd>
+              <dt>arch</dt><dd>The CPU architecture is meant to be used on (if a specific one exists).</dd>
+              <dt>size</dt><dd>The number of bytes the artifact is in a human-readable form.</dd>
+              <dt>sha256</dt><dd>The SHA256 of the artifact to be used for verification of a correct download.</dd>
+            </dl>
+          </p>
+        </div>
+      </div>
+
+      <footer>The <a href="https://github.com/jmhodges/goreleaseapi">goreleaseapi</a>
+      is maintained by Jeff Hodges (Twitter: <a href="https://twitter.com/jmhodges">@jmhodges</a>, GitHub: <a href="https://github.com/jmhodges">jmhodges</a>).</footer>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>
