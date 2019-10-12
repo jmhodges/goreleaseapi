@@ -20,22 +20,21 @@
       <div class="page-header">
         <h2>Go release JSON API</h2>
       </div>
-      <p>The Go release JSON API provides programmatic access to the release versions, and artifacts of the Go programming language.</p>
+      <p>The Go release JSON API provides programmatic access to the release versions and artifacts of the Go programming language.</p>
       <div class="row">
         <div class="col-md-6">
           <div class="page-header">
             <h3>API calls</h3>
           </div>
-          <p><a href="/goreleaseapi/api/latest_version.txt">/api/latest_version.txt</a>: The latest version of Go in text.</p>
+          <p><a href="/goreleaseapi/api/latest_version.txt">/api/latest_version.txt</a>: Returns the latest stable version of Go in text.</p>
 
-          <p><a href="/goreleaseapi/api/latest_release.json">/api/latest_release.json</a>: The <code>Release</code> object for the latest version of Go.</p>
+          <p><a href="/goreleaseapi/api/latest_release.json">/api/latest_release.json</a>: Returns the <code>Release</code> object for the latest stable version of Go.</p>
 
-          <p><a href="/goreleaseapi/api/all_versions.txt">/api/all_versions.txt</a>: All of the Go versions sorted in decreasing release version and separated by newlines.</p>
+          <p><a href="/goreleaseapi/api/all_versions.txt">/api/all_versions.txt</a>: Returns all of the stable Go versions sorted in decreasing release version and separated by newlines.</p>
 
-          <p><a href="/goreleaseapi/api/all_versions.json">/api/all_versions.json</a>: All of the Go versions in JSON format with a top-level <code>versions</code> key pointing to an array of JSON objects with <code>version</code> and <code>link</code> keys. The value of <code>link</code> is a relative HTTP path to aJSON <code>Release</code> objects.</p>
+          <p><a href="/goreleaseapi/api/all_versions.json">/api/all_versions.json</a>: Returns all of the stable Go versions in JSON format with a top-level versions key pointing to an array of JSON objects with version and link keys. The value of link is a relative HTTP path to aJSON Release objects.
 
-          <p>/api/versions/$GO_VERSION/release.json: The JSON <code>Release</code> object for the given <code>$GO_VERSION</code>. Specific <code>Release</code>s will be linked to from <a href="/goreleaseapi/api/all_versions.json">/api/all_versions.json</a> so
-            you don't have to get the version formatting correct.</p>
+          <p>/api/versions/$GO_VERSION/release.json: The JSON <code>Release</code> object for the given <code>$GO_VERSION</code>.
         </div>
         <div class="col-md-6">
           <div class="page-header">
@@ -47,18 +46,18 @@
               <dt>artifacts</dt>
               <dd>An array of <code>Artifact</code>s.</dd>
               <dt>version</dt>
-              <dd>The version (e.g. "1.1", "1.13.1") of the release.</dd>
+              <dd>The numeric version (e.g. "1.1", "1.13.1") of the release.</dd>
             </dl>
-          <p>
-            <code>Artifact</code> objects contain:
-            <dl class="dl-horizontal">
-              <dt>version</dt><dd>The short version string of the Go release the artifact is from.</dd>
-              <dt>link</dt><dd>The URL where the artifact can be downloaded.</dd>
-              <dt>kind</dt><dd>The kind can be either <code>Source</code> (it's the source code for the artifact), <code>Installer</code> (a binary installer tool for a given platform), or <code>Archive</code> (a compiled form of the Go release for that platform)</dd>
-              <dt>os</dt><dd>The operating system the artifact is meant to be used on. (if a specific one exists).</dd>
-              <dt>arch</dt><dd>The CPU architecture is meant to be used on (if a specific one exists).</dd>
-              <dt>size</dt><dd>The number of bytes the artifact is in a human-readable form.</dd>
-              <dt>sha256</dt><dd>The SHA256 of the artifact to be used for verification of a correct download.</dd>
+            <p>
+              <code>Artifact</code> objects contain:
+              <dl class="dl-horizontal">
+                <dt>version</dt><dd>The short version string of the Go release the artifact is from.</dd>
+                <dt>link</dt><dd>The URL where the artifact can be downloaded.</dd>
+                <dt>kind</dt><dd>The kind can be either <code>"Source"</code> (it's the source code for the artifact), <code>"Installer"</code> (a binary installer tool for a given platform), or <code>"Archive"</code> (a compiled form of the Go release for that platform).</dd>
+                <dt>os</dt><dd>The operating system the artifact is meant to be used on (if a specific one exists).</dd>
+                <dt>arch</dt><dd>The CPU architecture the artifact is meant to be used on (if a specific one exists).</dd>
+                <dt>size</dt><dd>The number of bytes the artifact is in a human-readable form.</dd>
+                <dt>sha256</dt><dd>The SHA256 of the artifact to be used for verification of a correct download.</dd>
             </dl>
           </p>
         </div>
