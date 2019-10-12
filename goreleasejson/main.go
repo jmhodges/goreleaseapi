@@ -96,15 +96,10 @@ func main() {
 		sortedVers = append(sortedVers, vers.rawID)
 		sortedVersLinks = append(sortedVersLinks, versionLink{
 			Version: vers.rawID,
-			Link:    fmt.Sprintf("/%s/versions/%s/artifacts.json", *genDir, vers.rawID),
+			Link:    fmt.Sprintf("/%s/versions/%s/release.json", *genDir, vers.rawID),
 		})
 	}
 	latestVersion := sortedVers[0]
-
-	b, err := json.Marshal(artifacts)
-	if err != nil {
-		log.Fatalf("goreleasejson: unable to JSON marshal: %s", err)
-	}
 
 	err = os.MkdirAll(*genDir, 0774)
 	if err != nil {
@@ -114,7 +109,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("goreleasejson: unable to create latest_version.txt file: %s", err)
 	}
-	err = ioutil.WriteFile(filepath.Join(*genDir, "all_artifacts.json"), []byte(b), 0644)
 	for vers, arcs := range artifacts {
 		versDir := filepath.Join(*genDir, "versions", vers)
 		fp := filepath.Join(versDir, "artifacts.json")
@@ -134,6 +128,20 @@ func main() {
 		if err != nil {
 			log.Fatalf("goreleasejson: unable write artifacts.json for %#v: %s", fp, err)
 		}
+	}
+
+	allVersJSONPath := filepath.Join(*genDir, "all_versions.json")
+	versJSONBytes, err := json.Marshal(allVersWrapper{Versions: sortedVersLinks})
+	if err != nil {
+		log.Fatalf("goreleasejson: unable to marshal JSON of the versions array: %s", err)
+	}
+	err = ioutil.WriteFile(
+		allVersJSONPath,
+		versJSONBytes,
+		0644,
+	)
+	if err != nil {
+		log.Fatalf("goreleasejson: unable to write %#v: %s", allVersJSONPath, err)
 	}
 
 	allVersTxtPath := filepath.Join(*genDir, "all_versions.txt")
@@ -167,24 +175,24 @@ type versInfo struct {
 }
 
 type artifact struct {
-	Version string
-	Link    string
-	Kind    string
-	OS      string
-	Arch    string
-	Size    string
-	SHA256  string
+	Version string `json:"version"`
+	Link    string `json:"link"`
+	Kind    string `json:"kind"`
+	OS      string `json:"os"`
+	Arch    string `json:"arch"`
+	Size    string `json:"size"`
+	SHA256  string `json:"sha256"`
 }
 
 type artifactsWrapper struct {
-	Artifacts []artifact
+	Artifacts []artifact `json:"artifacts"`
 }
 
 type allVersWrapper struct {
-	Versions []versionLink
+	Versions []versionLink `json:"versions"`
 }
 
 type versionLink struct {
-	Version string
-	Link    string
+	Version string `json:"version"`
+	Link    string `json:"link"`
 }
