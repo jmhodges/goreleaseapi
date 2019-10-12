@@ -81,7 +81,7 @@ func main() {
 				case 3:
 					arc.Arch = child.Text()
 				case 4:
-					arc.Size = child.Text()
+					// Skip over the human-readable Size column
 				case 5:
 					text := child.Text()
 					switch len(text) {
@@ -242,7 +242,6 @@ type artifact struct {
 	Kind    string `json:"kind"`
 	OS      string `json:"os"`
 	Arch    string `json:"arch"`
-	Size    string `json:"size"`
 	SHA256  string `json:"sha256"`
 	SHA1    string `json:"sha1"`
 }
