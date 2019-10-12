@@ -73,17 +73,17 @@ func main() {
 						html, _ := child.Html()
 						log.Fatalf("goreleasejson: unable to grab href attribute we think is a download link from %#v", html)
 					}
-					arc.Link = link
+					arc.Link = strings.TrimSpace(link)
 				case 1:
-					arc.Kind = child.Text()
+					arc.Kind = strings.TrimSpace(child.Text())
 				case 2:
-					arc.OS = child.Text()
+					arc.OS = strings.TrimSpace(child.Text())
 				case 3:
-					arc.Arch = child.Text()
+					arc.Arch = strings.TrimSpace(child.Text())
 				case 4:
 					// Skip over the human-readable Size column
 				case 5:
-					text := child.Text()
+					text := strings.TrimSpace(child.Text())
 					switch len(text) {
 					case 64:
 						arc.SHA256 = text
