@@ -35,7 +35,7 @@ func main() {
 		bufio.NewReaderSize(res.Body, 1024*1024),
 	)
 	if err != nil {
-		log.Fatal("goreleasejson: uanble to goquery NewDocumentFromReader: %s", err)
+		log.Fatalf("goreleasejson: unable to goquery NewDocumentFromReader: %s", err)
 	}
 	versions := make(map[string]versInfo)
 	doc.Find("div.toggleVisible").Each(func(i int, s *goquery.Selection) {
