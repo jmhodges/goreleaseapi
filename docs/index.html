@@ -14,11 +14,11 @@
       <div class="page-header">
         <h3>The API's URLs</h3>
       </div>
-      <a href="/api/latest_version.txt">/api/latest_version.txt</a>: The latest version of Go in text</p>
-      <p><a href="/api/all_versions.txt">/api/all_versions.txt</a>: All of the Go versions sorted in decreasing release version and separated by newlines.</p>
-      <p><a href="/api/all_versions.json">/api/all_versions.json</a>: All of the Go versions in JSON format with a top-level <code>versions</code> key pointing to an array of JSON objects with <code>version</code> and <code>link</code> keys. The value of <code>link</code> is a relative HTTP path to aJSON <code>Release</code> objects.</p>
+      <a href="/goreleaseapi/api/latest_version.txt">/api/latest_version.txt</a>: The latest version of Go in text</p>
+      <p><a href="/goreleaseapi/api/all_versions.txt">/api/all_versions.txt</a>: All of the Go versions sorted in decreasing release version and separated by newlines.</p>
+      <p><a href="/goreleaseapi/api/all_versions.json">/api/all_versions.json</a>: All of the Go versions in JSON format with a top-level <code>versions</code> key pointing to an array of JSON objects with <code>version</code> and <code>link</code> keys. The value of <code>link</code> is a relative HTTP path to aJSON <code>Release</code> objects.</p>
 
-      <p>/api/versions/$GO_VERSION/release.json: The JSON <code>Release</code> object for the given <code>$GO_VERSION</code>. Specific <code>Release</code> will be linked to from <a href="/api/all_versions.json">/api/all_versions.json</a> so
+      <p>/api/versions/$GO_VERSION/release.json: The JSON <code>Release</code> object for the given <code>$GO_VERSION</code>. Specific <code>Release</code> will be linked to from <a href="/goreleaseapi/api/all_versions.json">/api/all_versions.json</a> so
         you don't have to get the version formatting correct.</p>
       <div class="page-header">
         <h3>The API's objects</h3>
