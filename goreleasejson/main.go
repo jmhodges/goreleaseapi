@@ -112,7 +112,7 @@ func main() {
 	latestReleaseJSON, err := json.Marshal(
 		release{
 			Artifacts: artifacts[latestVersion],
-			//			Version:   latestVersion,
+			Version:   latestVersion,
 		})
 	if err != nil {
 		log.Fatalf("goreleasejson: unable to marshal the JSON for latest_release.json: %s", err)
@@ -127,7 +127,7 @@ func main() {
 		fp := filepath.Join(versDir, "artifacts.json")
 		arcJSON, err := json.Marshal(release{
 			Artifacts: arcs,
-			// Version:   vers,
+			Version:   vers,
 		})
 		if err != nil {
 			log.Fatalf("goreleasejson: unable to JSON marshal artifacts for %#v: %s", fp, err)
@@ -202,7 +202,7 @@ type artifact struct {
 
 type release struct {
 	Artifacts []artifact `json:"artifacts"`
-	// Version   string     `json:"version"`
+	Version   string     `json:"version"`
 }
 
 type allVersWrapper struct {
