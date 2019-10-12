@@ -18,7 +18,7 @@ import (
 )
 
 var (
-	genDir = flag.String("d", "api", "directory to generate the JSON and text files in")
+	genDir = flag.String("d", "docs/api", "directory to generate the JSON and text files in")
 )
 
 func main() {
