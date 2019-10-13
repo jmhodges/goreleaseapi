@@ -27,4 +27,4 @@ jobs:
           PULL_REQUEST_TITLE: ${{ steps.pr_title_maker.outputs.pr_title }}
           COMMIT_MESSAGE: ${{ steps.pr_title_maker.outputs.pr_title }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PULL_REQUEST_LABELS: autorebuild
+          PULL_REQUEST_LABELS: autorebuild,autorebase
