@@ -22,7 +22,7 @@ jobs:
       - run: echo "##[set-output name=pr_title;]rebuild API for new Go version $(cat docs/api/latest_version.txt)"
         id: pr_title_maker
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v1.5.1
+        uses: peter-evans/create-pull-request@v1.5.2
         env:
           PULL_REQUEST_TITLE: ${{ steps.pr_title_maker.outputs.pr_title }}
           COMMIT_MESSAGE: ${{ steps.pr_title_maker.outputs.pr_title }}
