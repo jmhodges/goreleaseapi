@@ -94,6 +94,19 @@ func main() {
 			})
 			artifacts[vers.versNum] = append(artifacts[vers.versNum], arc)
 		})
+		arts := artifacts[vers.versNum]
+		sort.Slice(arts, func(i, j int) bool {
+			if arts[i].OS < arts[i].OS {
+				return true
+			}
+			if arts[i].Arch < arts[i].Arch {
+				return true
+			}
+			if arts[i].Kind < arts[i].Kind {
+				return true
+			}
+			return arts[i].Link < arts[i].Link
+		})
 	}
 
 	err = validateArtifacts(artifacts)
