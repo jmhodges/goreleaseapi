@@ -29,5 +29,3 @@ jobs:
           COMMIT_MESSAGE: Auto-generated pull request created by the GitHub Actions [create-pull-request](https://github.com/peter-evans/create-pull-request) and our own [rebuild_api.yml](https://github.com/jmhodges/goreleaseapi/blob/master/.github/workflows/rebuild_api.yml).
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PULL_REQUEST_LABELS: autorebuild,autorebase
-          BRANCH_SUFFIX: none
-          PULL_REQUEST_BRANCH: ensure-latest-go/patch-${{ steps.ensure_go.outputs.go_version }}
